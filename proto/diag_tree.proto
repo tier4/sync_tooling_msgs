@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "diag_status.proto";
+
+message DiagTree {
+  message DiagList {
+    repeated DiagTree list = 1;
+  }
+
+  message DiagMap {
+    map<string, DiagTree> map = 1;
+  }
+
+  oneof tree {
+    DiagStatus status = 1;
+    DiagList list = 2;
+    DiagMap map = 3;
+  }
+}

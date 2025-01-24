@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+message Unknown {
+  optional string msg = 1;
+}
