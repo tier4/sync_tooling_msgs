@@ -1,4 +1,7 @@
 .cache
 .venv
 build
+install
+log
 dist
+*.egg-info
