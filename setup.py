@@ -34,9 +34,12 @@ class CustomCommand(Command):
                 "grpc_tools.protoc",
                 f"--proto_path={self.proto_msgs_path}",
                 f"--python_out={output_dir}",
+                f"--pyi_out={output_dir}",
                 *self.get_source_files(),
             ]
             subprocess.call(protoc_call)
+            with open(f"{output_dir}/__init__.py", "w"):
+                pass
 
 class CustomBuild(build):
     sub_commands = [('build_custom', None)] + build.sub_commands
