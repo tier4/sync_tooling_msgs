@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+import "port_id.proto";
+import "clock_id.proto";
+
+message PtpParentUpdate {
+    ClockId clock_id = 1;
+    PortId parent = 2;
+}

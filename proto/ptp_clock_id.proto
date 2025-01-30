@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+message PtpClockId {
+  string id = 1;
+}

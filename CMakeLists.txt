@@ -14,6 +14,7 @@ set(PROTO_FILES
   proto/error.proto
   proto/diag_status.proto
   proto/diag_tree.proto
+  proto/graph_update.proto
 )
 
 set(CPP_SRCS "")

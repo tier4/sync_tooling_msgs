@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+import "clock_id.proto";
+
+message ClockStateUpdate {
+    ClockId clock_id = 1;
+    optional ClockId master = 2;
+}

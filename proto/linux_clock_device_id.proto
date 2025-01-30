@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message LinuxClockDeviceId {
+  string hostname = 1;
+  int32 clock_device_number = 2;
+}

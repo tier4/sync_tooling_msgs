@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message InterfaceId {
+  string hostname = 1;
+  string interface_name = 2;
+}
