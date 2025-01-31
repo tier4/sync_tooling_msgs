@@ -26,7 +26,7 @@ foreach(PROTO_FILE ${PROTO_FILES})
   list(APPEND CPP_HDRS ${CPP_OUT_DIR}/${PROTO_NAME}.pb.h)
 endforeach()
 
-list(TRANSFORM PROTO_FILES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
+list(TRANSFORM PROTO_FILES PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/proto/)
 
 make_directory(${CPP_OUT_DIR})
 
@@ -39,10 +39,11 @@ add_custom_command(
 
 add_library(sync_tooling_msgs SHARED ${CPP_SRCS})
 target_link_libraries(sync_tooling_msgs PUBLIC ${Protobuf_LIBRARIES})
-target_include_directories(sync_tooling_msgs PUBLIC ${CPP_OUT_DIR})
 
 install(TARGETS sync_tooling_msgs EXPORT export_sync_tooling_msgs)
 install(DIRECTORY proto DESTINATION share/${PROJECT_NAME})
 install(FILES ${CPP_HDRS} DESTINATION include/${PROJECT_NAME})
 
+ament_export_include_directories(include)
+ament_export_targets(export_sync_tooling_msgs)
 ament_package()
