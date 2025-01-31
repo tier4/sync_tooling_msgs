@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+import "clock_id.proto";
+
+message ClockDiffMeasurement {
+  ClockId src = 1;
+  ClockId dst = 2;
+  int64 diff_ns = 3;
+}
