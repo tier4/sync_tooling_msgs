@@ -8,13 +8,25 @@ set(PROTO_DIR proto)
 set(CPP_OUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/cpp_out)
 
 set(PROTO_FILES
-  proto/unknown.proto
-  proto/ok.proto
-  proto/warning.proto
-  proto/error.proto
-  proto/diag_status.proto
-  proto/diag_tree.proto
-  proto/graph_update.proto
+  clock_alias_update.proto
+  clock_diff_measurement.proto
+  clock_id.proto
+  clock_master_update.proto
+  diag_status.proto
+  diag_tree.proto
+  error.proto
+  frame_id.proto
+  graph_update.proto
+  interface_id.proto
+  linux_clock_device_id.proto
+  ok.proto
+  phc2sys_update.proto
+  port_id.proto
+  ptp_clock_id.proto
+  ptp_parent_update.proto
+  system_clock_id.proto
+  unknown.proto
+  warning.proto
 )
 
 set(CPP_SRCS "")

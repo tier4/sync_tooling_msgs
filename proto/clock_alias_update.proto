@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+import "clock_id.proto";
+
+message ClockAliasUpdate {
+    repeated ClockId aliases = 1;
+}

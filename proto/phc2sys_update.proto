@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-import "port_id.proto";
 import "clock_id.proto";
+import "diag_tree.proto";
 
-message PtpParentUpdate {
+message Phc2SysUpdate {
     ClockId src = 1;
     ClockId dst = 2;
-    PortId parent = 3;
+    DiagTree diag = 3;
 }

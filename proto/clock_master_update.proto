@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "clock_id.proto";
 
-message ClockStateUpdate {
+message ClockMasterUpdate {
     ClockId clock_id = 1;
     optional ClockId master = 2;
 }
