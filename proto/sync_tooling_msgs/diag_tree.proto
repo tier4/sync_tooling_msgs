@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "diag_status.proto";
+import "sync_tooling_msgs/diag_status.proto";
 
 message DiagTree {
   message DiagList {

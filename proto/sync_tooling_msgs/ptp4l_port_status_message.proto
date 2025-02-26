@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+import "sync_tooling_msgs/port_id.proto";
+import "sync_tooling_msgs/warning.proto";
+import "sync_tooling_msgs/error.proto";
+
+message Ptp4lPortStatusMessage {
+  PortId port_id = 1;
+  oneof severity {
+    Warning warning = 2;
+    Error error = 3;
+  } 
+}

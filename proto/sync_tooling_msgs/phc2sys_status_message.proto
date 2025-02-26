@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "sync_tooling_msgs/clock_id.proto";
+import "sync_tooling_msgs/warning.proto";
+import "sync_tooling_msgs/error.proto";
+
+message Phc2SysStatusMessage {
+  ClockId src_clock = 1;
+  repeated ClockId dst_clocks = 2;
+  oneof severity {
+    Warning warning = 3;
+    Error error = 4;
+  } 
+}

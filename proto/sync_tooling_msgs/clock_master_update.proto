@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "clock_id.proto";
+import "sync_tooling_msgs/clock_id.proto";
 
 message ClockMasterUpdate {
     ClockId clock_id = 1;

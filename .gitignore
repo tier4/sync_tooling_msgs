@@ -4,4 +4,4 @@ build
 install
 log
 dist
-*.egg-info
+*_pb2.py*

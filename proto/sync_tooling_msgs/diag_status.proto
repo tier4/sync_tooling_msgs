@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "sync_tooling_msgs/unknown.proto";
+import "sync_tooling_msgs/ok.proto";
+import "sync_tooling_msgs/warning.proto";
+import "sync_tooling_msgs/error.proto";
+
+message DiagStatus {
+  oneof status {
+    Unknown unknown = 1;
+    Ok ok = 2;
+    Warning warning = 3;
+    Error error = 4;
+  }
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+enum PortState {
+  PS_UNKNOWN = 0;
+	PS_INITIALIZING = 1;
+	PS_FAULTY = 2;
+	PS_DISABLED = 3;
+	PS_LISTENING = 4;
+	PS_PRE_MASTER = 5;
+	PS_MASTER = 6;
+	PS_PASSIVE = 7;
+	PS_UNCALIBRATED = 8;
+	PS_SLAVE = 9;
+	PS_GRAND_MASTER = 10; /*non-standard PTP4L extension*/
+};

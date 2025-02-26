@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "clock_id.proto";
+import "sync_tooling_msgs/clock_id.proto";
 
 message ClockDiffMeasurement {
   ClockId src = 1;
