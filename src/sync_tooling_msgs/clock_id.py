@@ -20,3 +20,16 @@ def readable_clock_id(clock_id: ClockId) -> str | None:
             return None
         case other:
             raise NotImplementedError(f"Clock ID type '{other}' is not supported")
+
+
+def readable_clock_type(clock_id: ClockId):
+    TYPE_NAMES = {
+        "frame_id": "Sensor",
+        "interface_id": "Network interface",
+        "linux_clock_device_id": "Linux clock device",
+        "ptp_clock_id": "PTP clock",
+        "system_clock_id": "System clock",
+        None: "Unset",
+    }
+
+    return TYPE_NAMES[clock_id.WhichOneof("id")]
