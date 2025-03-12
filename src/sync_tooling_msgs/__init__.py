@@ -1,4 +1,5 @@
 from google.protobuf.message import Message
+
 from .clock_id_pb2 import ClockId
 from .port_id_pb2 import PortId
 
@@ -17,5 +18,6 @@ def _proto_hash(message: Message):
     """
     return hash(message.SerializePartialToString(deterministic=True))
 
-ClockId.__hash__ = _proto_hash
-PortId.__hash__ = _proto_hash
+
+ClockId.__hash__ = _proto_hash  # type: ignore
+PortId.__hash__ = _proto_hash  # type: ignore

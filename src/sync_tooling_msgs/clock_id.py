@@ -23,7 +23,7 @@ def readable_clock_id(clock_id: ClockId) -> str | None:
 
 
 def readable_clock_type(clock_id: ClockId):
-    TYPE_NAMES = {
+    type_names = {
         "frame_id": "Sensor",
         "interface_id": "Network interface",
         "linux_clock_device_id": "Linux clock device",
@@ -32,4 +32,4 @@ def readable_clock_type(clock_id: ClockId):
         None: "Unset",
     }
 
-    return TYPE_NAMES[clock_id.WhichOneof("id")]
+    return type_names[clock_id.WhichOneof("id")]
