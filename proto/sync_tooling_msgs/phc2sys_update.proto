@@ -1,10 +1,10 @@
 syntax = "proto3";
 
 import "sync_tooling_msgs/clock_id.proto";
-import "sync_tooling_msgs/diag_tree.proto";
+import "sync_tooling_msgs/slave_clock_state.proto";
 
 message Phc2SysUpdate {
     ClockId src = 1;
     ClockId dst = 2;
-    DiagTree diag = 3;
+    SlaveClockState clock_state = 3;
 }

@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+import "sync_tooling_msgs/servo_state.proto";
+
+message SlaveClockState {
+    ServoState servo_state = 1;
+    int64 offset_ns = 2;
+    uint64 delay_ns = 3;
+    int64 frequency_offset_ppb = 4;
+}

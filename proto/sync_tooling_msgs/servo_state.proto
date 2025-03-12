@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+enum ServoState {
+	SERVO_UNLOCKED = 0;
+	SERVO_JUMP = 1;
+	SERVO_LOCKED = 2;
+	SERVO_LOCKED_STABLE = 3;
+};
