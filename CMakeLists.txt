@@ -24,12 +24,14 @@ set(PROTO_FILES
   phc2sys_status_message.proto
   phc2sys_update.proto
   port_id.proto
-  port_state.proto
   port_state_update.proto
-  ptp4l_port_status_message.proto
-  ptp4l_status_message.proto
+  port_state.proto
   ptp_clock_id.proto
   ptp_parent_update.proto
+  ptp4l_port_status_message.proto
+  ptp4l_status_message.proto
+  servo_state.proto
+  slave_clock_state.proto
   system_clock_id.proto
   unknown.proto
   warning.proto
