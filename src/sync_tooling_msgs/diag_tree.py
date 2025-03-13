@@ -38,6 +38,8 @@ def to_diag_tree(
     proto: DiagStatus | Ok | Warning | Error | Unknown | list | dict,
 ) -> DiagTree:
     match proto:
+        case DiagTree():
+            return proto
         case DiagStatus():
             return DiagTree(status=proto)
         case [*ls]:
