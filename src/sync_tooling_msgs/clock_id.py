@@ -1,4 +1,11 @@
+import re
+
 from sync_tooling_msgs.clock_id_pb2 import ClockId
+from sync_tooling_msgs.interface_id_pb2 import InterfaceId
+from sync_tooling_msgs.linux_clock_device_id_pb2 import LinuxClockDeviceId
+from sync_tooling_msgs.ptp_clock_id_pb2 import PtpClockId
+from sync_tooling_msgs.sensor_id_pb2 import SensorId
+from sync_tooling_msgs.system_clock_id_pb2 import SystemClockId
 
 
 def readable_clock_id(clock_id: ClockId) -> str | None:
@@ -21,6 +28,64 @@ def readable_clock_id(clock_id: ClockId) -> str | None:
             return None
         case other:
             raise NotImplementedError(f"Clock ID type '{other}' is not supported")
+
+
+def parse_clock_id(string: str) -> ClockId:
+    """
+    Parses a string in the format produced by `readable_clock_id` into a clock ID.
+
+    Possible ambiguities:
+    * an interface name ending with @ followed by a valid IPv4 address will be interpreted as a sensor ID
+
+    Args:
+        string (str): The string to parse.
+
+    Raises:
+        ValueError: If the string could not be parsed into a valid clock ID
+
+    Returns:
+        ClockId: The parsed, valid clock ID
+    """
+
+    # see `man 7 hostname`
+    re_hostname = r"(?P<hostname>[A-Za-z0-9][A-Za-z0-9\-]{,63})"
+    re_sys = f"{re_hostname}.sys"
+    re_clock_dev = f"{re_hostname}.ptp(?P<device_num>\\d+)"
+
+    re_hex = r"[A-Fa-f0-9]"
+    re_ptp = f"{re_hex}{{6}}.{re_hex}{{4}}.{re_hex}{{6}}"
+
+    # interface name validation from: https://unix.stackexchange.com/a/532650
+    re_iface = f"{re_hostname}.(?P<iface_name>[^/ ]+)"
+
+    # from: https://stackoverflow.com/a/36760050
+    re_ipv4 = r"((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}"
+    re_sensor = f"(?P<name>.+)@(?P<ip>{re_ipv4})"
+
+    if m := re.fullmatch(re_sys, string):
+        return ClockId(system_clock_id=SystemClockId(hostname=m["hostname"]))
+
+    if m := re.fullmatch(re_clock_dev, string):
+        return ClockId(
+            linux_clock_device_id=LinuxClockDeviceId(
+                hostname=m["hostname"], clock_device_number=int(m["device_num"])
+            )
+        )
+
+    if m := re.fullmatch(re_ptp, string):
+        return ClockId(ptp_clock_id=PtpClockId(id=string))
+
+    if m := re.fullmatch(re_sensor, string):
+        return ClockId(sensor_id=SensorId(name=m["name"], ip=m["ip"]))
+
+    if m := re.fullmatch(re_iface, string):
+        return ClockId(
+            interface_id=InterfaceId(
+                hostname=m["hostname"], interface_name=m["iface_name"]
+            )
+        )
+
+    raise ValueError("Cannot parse clock id")
 
 
 def readable_clock_type(clock_id: ClockId):
