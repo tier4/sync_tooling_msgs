@@ -3,8 +3,9 @@ from sync_tooling_msgs.clock_id_pb2 import ClockId
 
 def readable_clock_id(clock_id: ClockId) -> str | None:
     match clock_id.WhichOneof("id"):
-        case "frame_id":
-            return clock_id.frame_id.frame
+        case "sensor_id":
+            id = clock_id.sensor_id
+            return f"{id.name}@{id.ip}"
         case "interface_id":
             id = clock_id.interface_id
             return f"{id.hostname}.{id.interface_name}"
@@ -24,7 +25,7 @@ def readable_clock_id(clock_id: ClockId) -> str | None:
 
 def readable_clock_type(clock_id: ClockId):
     type_names = {
-        "frame_id": "Sensor",
+        "sensor_id": "Sensor",
         "interface_id": "Network interface",
         "linux_clock_device_id": "Linux clock device",
         "ptp_clock_id": "PTP clock",

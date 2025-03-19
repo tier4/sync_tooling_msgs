@@ -16,7 +16,7 @@ set(PROTO_FILES
   diag_status.proto
   diag_tree.proto
   error.proto
-  frame_id.proto
+  sensor_id.proto
   graph_update.proto
   interface_id.proto
   linux_clock_device_id.proto

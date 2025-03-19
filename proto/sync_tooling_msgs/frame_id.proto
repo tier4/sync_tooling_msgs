@@ -1,5 +1,0 @@
-syntax = "proto3";
-
-message FrameId {
-  string frame = 1;
-}

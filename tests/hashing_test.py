@@ -1,10 +1,10 @@
 from sync_tooling_msgs.clock_id_pb2 import ClockId
-from sync_tooling_msgs.frame_id_pb2 import FrameId
+from sync_tooling_msgs.sensor_id_pb2 import SensorId
 from sync_tooling_msgs.port_id_pb2 import PortId
 
-clock_id_test1 = ClockId(frame_id=FrameId(frame="test"))
-clock_id_test2 = ClockId(frame_id=FrameId(frame="test"))
-clock_id_other = ClockId(frame_id=FrameId(frame="other"))
+clock_id_test1 = ClockId(sensor_id=SensorId(name="test", ip="192.168.1.201"))
+clock_id_test2 = ClockId(sensor_id=SensorId(name="test", ip="192.168.1.201"))
+clock_id_other = ClockId(sensor_id=SensorId(name="other", ip="192.168.1.202"))
 clock_id_empty = ClockId()
 
 port_id_domain0 = PortId(clock_id=clock_id_test1, port_number=1, ptp_domain=0)
