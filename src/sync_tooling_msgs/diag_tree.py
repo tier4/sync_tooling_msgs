@@ -1,8 +1,3 @@
-import dataclasses
-from abc import ABC, ABCMeta, abstractmethod
-from enum import EnumMeta
-from typing import Any
-
 from sync_tooling_msgs.diag_status_pb2 import DiagStatus
 from sync_tooling_msgs.diag_tree_pb2 import DiagTree
 from sync_tooling_msgs.error_pb2 import Error
@@ -22,16 +17,6 @@ def precedence(status: DiagStatus) -> int:
         case "error":
             return 3
     raise ValueError()
-
-
-class DiagnosableEnumMeta(EnumMeta, ABCMeta):
-    pass
-
-
-class Diagnosable(ABC):
-    @abstractmethod
-    def diagnose(self) -> DiagTree:
-        raise NotImplementedError()
 
 
 def to_diag_tree(
@@ -59,26 +44,6 @@ def to_diag_tree(
         case Unknown():
             return to_diag_tree(DiagStatus(unknown=proto))
     raise ValueError(f"Could not convert {type(proto)} to DiagTree")
-
-
-def diagnose(obj: Any) -> DiagTree:
-    match obj:
-        case None:
-            return to_diag_tree(Unknown())
-        case DiagStatus() as status:
-            return DiagTree(status=status)
-        case list() as ls:
-            return to_diag_tree([diagnose(elem) for elem in ls])
-        case dict() as d:
-            return to_diag_tree({k: diagnose(v) for k, v in d.items()})
-        case Diagnosable() as diagnosable:
-            return diagnosable.diagnose()
-        case _:
-            if dataclasses.is_dataclass(obj):
-                return diagnose({obj.__class__.__name__: dataclasses.asdict(obj)})  # type: ignore
-            raise NotImplementedError(
-                f"diagnose({type(obj).__qualname__}) is not implemented"
-            )
 
 
 def prettify(diag_tree: DiagTree, indent=0) -> str:
@@ -132,3 +97,41 @@ def aggregate(diag_tree: DiagTree) -> DiagStatus:
             max_status = max(map(aggregate, subtrees.values()), key=precedence)
             return max_status
     raise AssertionError()
+
+
+def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus]:
+    def concat_labels(a: str, b: str | None):
+        return a if b is None else f"{a}.{b}"
+
+    def internal_flatten(diag_tree: DiagTree) -> dict[str | None, DiagStatus]:
+        match diag_tree.WhichOneof("tree"):
+            case "status":
+                return {None: diag_tree.status}
+            case "list":
+                subtrees = diag_tree.list.list
+                subtrees = {
+                    str(i): flatten(subtree) for i, subtree in enumerate(subtrees)
+                }
+                return {
+                    concat_labels(label, sub_label): item
+                    for label, subtree in subtrees.items()
+                    for sub_label, item in subtree.items()
+                }
+            case "map":
+                subtrees = diag_tree.map.map
+                subtrees = {
+                    label: flatten(subtree) for label, subtree in subtrees.items()
+                }
+                return {
+                    concat_labels(label, sub_label): item
+                    for label, subtree in subtrees.items()
+                    for sub_label, item in subtree.items()
+                }
+        raise AssertionError()
+
+    flattened = internal_flatten(diag_tree)
+    if None in flattened:
+        flattened["status"] = flattened[None]
+        del flattened[None]
+
+    return flattened  # type: ignore
