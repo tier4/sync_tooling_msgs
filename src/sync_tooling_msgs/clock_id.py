@@ -8,7 +8,7 @@ from sync_tooling_msgs.sensor_id_pb2 import SensorId
 from sync_tooling_msgs.system_clock_id_pb2 import SystemClockId
 
 
-def readable_clock_id(clock_id: ClockId) -> str | None:
+def readable_clock_id(clock_id: ClockId) -> str:
     match clock_id.WhichOneof("id"):
         case "sensor_id":
             id = clock_id.sensor_id
@@ -24,8 +24,6 @@ def readable_clock_id(clock_id: ClockId) -> str | None:
         case "system_clock_id":
             id = clock_id.system_clock_id
             return f"{id.hostname}.sys"
-        case None:
-            return None
         case other:
             raise NotImplementedError(f"Clock ID type '{other}' is not supported")
 
