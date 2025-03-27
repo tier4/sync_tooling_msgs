@@ -5,4 +5,5 @@ import "sync_tooling_msgs/clock_id.proto";
 message ClockMasterUpdate {
     ClockId clock_id = 1;
     optional ClockId master = 2;
+    optional int64 master_offset_ns = 3;
 }
