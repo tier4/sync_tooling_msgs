@@ -4,7 +4,6 @@ from sync_tooling_msgs.diag_tree import to_diag_tree
 from sync_tooling_msgs.error_pb2 import Error
 from sync_tooling_msgs.ok_pb2 import Ok
 from sync_tooling_msgs.port_state_pb2 import PortState as PS
-from sync_tooling_msgs.warning_pb2 import Warning
 
 PORT_STATE_NAMES = bidict.bidict(
     {
