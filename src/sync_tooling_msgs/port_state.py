@@ -43,13 +43,11 @@ def diagnose_port_state(state: PS.ValueType):
             PS.PS_LISTENING | PS.PS_INITIALIZING | PS.PS_PRE_MASTER | PS.PS_UNCALIBRATED
         ):
             return to_diag_tree(
-                Warning(msg=f"Port is in a transient state ({port_state_name(state)})")
+                Error(msg=f"Port is in a transient state ({port_state_name(state)})")
             )
-        case PS.PS_DISABLED:
+        case PS.PS_DISABLED | PS.PS_PASSIVE:
             return to_diag_tree(
-                Warning(
-                    msg=f"Port exists but is not being used ({port_state_name(state)})"
-                )
+                Ok(msg=f"Port exists but is not being used ({port_state_name(state)})")
             )
         case _:
             return to_diag_tree(
