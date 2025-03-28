@@ -2,6 +2,15 @@ syntax = "proto3";
 
 import "sync_tooling_msgs/clock_id.proto";
 
+/*
+A graph update containing a time offset measurement between two clocks.
+
+While there are `ClockMasterUpdate` and `Phc2SysUpdate` which also contain time offset measurements,
+this message is for measurements that are done by other means, e.g. by extracting timestamps from
+sensor data and comparing it with packet ingress time in the driver.
+
+This kind of measurement can be more inaccurate than those produced by PTP or PHC2SYS directly.
+*/
 message ClockDiffMeasurement {
   ClockId src = 1;
   ClockId dst = 2;

@@ -2,15 +2,21 @@ syntax = "proto3";
 
 import "sync_tooling_msgs/diag_status.proto";
 
+// A tree of diagnostic data
 message DiagTree {
+  // A list of diagnostic trees
   message DiagList {
+    // Allowed to be empty
     repeated DiagTree list = 1;
   }
 
+  // A mapping of strings to diagnostic trees
   message DiagMap {
+    // Allowed to be empty. Keys can be freely chosen but should be human-readable
     map<string, DiagTree> map = 1;
   }
 
+  // Exactly one valid option has to be set. An empty field invalidates this message.
   oneof tree {
     DiagStatus status = 1;
     DiagList list = 2;

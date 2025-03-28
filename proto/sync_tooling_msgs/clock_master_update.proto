@@ -2,8 +2,15 @@ syntax = "proto3";
 
 import "sync_tooling_msgs/clock_id.proto";
 
+/*
+A graph update relating a clock to its PTP master, along with a master offset measurement.
+*/
 message ClockMasterUpdate {
+    // The destination clock. Must be set for the message to be valid
     ClockId clock_id = 1;
+    /* The master clock. If empty, this update expresses that `clock_id` has no master. 
+    The measurement will then be ignored. */
     optional ClockId master = 2;
+    // The master offset in nanoseconds, as reported by PMC
     optional int64 master_offset_ns = 3;
 }

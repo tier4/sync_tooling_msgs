@@ -6,12 +6,25 @@ import "sync_tooling_msgs/ptp_clock_id.proto";
 import "sync_tooling_msgs/linux_clock_device_id.proto";
 import "sync_tooling_msgs/system_clock_id.proto";
 
+/*
+A unique identifier for a clock in a distributed system.
+
+A clock is a physical or emulated device that can participate in PTP or PHC2SYS synchronization, and
+there can be multiple clocks per physical device. For example, an ECU might have a system clock and
+multiple network interfaces with their own clock devices.
+*/
 message ClockId {
+  // There has to be exactly one valid entry for the `ClockId` to be valid. (empty ID not allowed)
   oneof id {
+    // An ID uniquely describing a sensor in the system.
     SensorId sensor_id = 1;
+    // The name of a network interface on a specific host
     InterfaceId interface_id = 2;
+    // A hexadecimal identifier as used by the PTP protocol, usually derived from a MAC address
     PtpClockId ptp_clock_id = 3;
+    // The ID of a clock device on a Linux host
     LinuxClockDeviceId linux_clock_device_id = 4;
+    // The system clock of an ECU
     SystemClockId system_clock_id = 5;
   }
 }

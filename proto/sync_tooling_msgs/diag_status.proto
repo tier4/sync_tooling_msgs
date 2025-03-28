@@ -5,7 +5,9 @@ import "sync_tooling_msgs/ok.proto";
 import "sync_tooling_msgs/warning.proto";
 import "sync_tooling_msgs/error.proto";
 
+// An elementary diagnostics status
 message DiagStatus {
+  // There has to be exactly one valid status set. Otherwise, the message is invalid.
   oneof status {
     Unknown unknown = 1;
     Ok ok = 2;

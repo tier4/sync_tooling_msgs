@@ -2,6 +2,19 @@ syntax = "proto3";
 
 import "sync_tooling_msgs/clock_id.proto";
 
+/* 
+A graph update relating multiple different `ClockId`s that are aliases of the same clock.
+
+Examples:
+    The below alias update expresses that the three `ClockId`s shall be treated as the same clock.
+    ```
+    aliases:
+    - 123456.fffe.654321
+    - my_host.eno1
+    - my_host.ptp2
+    ```
+*/
 message ClockAliasUpdate {
+    // Valid only if it contains at least two valid `ClockId`s
     repeated ClockId aliases = 1;
 }
