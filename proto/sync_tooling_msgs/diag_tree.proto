@@ -18,8 +18,11 @@ message DiagTree {
 
   // Exactly one valid option has to be set. An empty field invalidates this message.
   oneof tree {
+    // A single diagnostic status
     DiagStatus status = 1;
+    // A list of diagnostic trees
     DiagList list = 2;
+    // A mapping of strings to diagnostic trees
     DiagMap map = 3;
   }
 }

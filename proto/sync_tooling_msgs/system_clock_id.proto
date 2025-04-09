@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+// A unique clock ID for a system clock of a given host
 message SystemClockId {
+  // The hostname of the host
   string hostname = 1;
 }

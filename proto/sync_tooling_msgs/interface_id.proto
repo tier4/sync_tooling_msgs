@@ -1,6 +1,9 @@
 syntax = "proto3";
 
+// A unique identifier for a network interface on a given host
 message InterfaceId {
+  // The hostname of the host as
   string hostname = 1;
+  // The name of the network interface as reported by `ip link`
   string interface_name = 2;
 }

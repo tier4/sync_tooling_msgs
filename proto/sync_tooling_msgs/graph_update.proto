@@ -10,17 +10,35 @@ import "sync_tooling_msgs/ptp4l_port_status_message.proto";
 import "sync_tooling_msgs/ptp4l_status_message.proto";
 import "sync_tooling_msgs/phc2sys_status_message.proto";
 
+/*
+An update to the synchronization graph.
+
+This is a message sent from diag workers or other components to the diag master.
+A synchronization graph can be constructed from 0 or more `GraphUpdate` messages.
+*/
 message GraphUpdate {
+  /* The source of the update, e.g. the name of the specific component of a worker that produced
+  the update. */
   string source = 1;
+  // The contents of the update
   oneof update {
+    // An update relating multiple different `ClockId`s that are aliases of the same clock.
     ClockAliasUpdate clock_alias_update = 2;
+    // A non-PTP, non-PHC2SYS time offset measurement between two clocks.
     ClockDiffMeasurement clock_diff_measurement = 3;
+    // An update relating a clock to its PTP master, along with a master offset measurement.
     ClockMasterUpdate clock_master_update = 4;
+    // An update relating a clock to its PHC2SYS source, along with an offset measurement.
     Phc2SysUpdate phc2sys_update = 5;
+    // An update relating a clock to its parent PTP port.
     PtpParentUpdate ptp_parent_update = 6;
+    // An update reporting the state of a PTP port.
     PortStateUpdate port_state_update = 7;
+    // A PTP4L port status message.
     Ptp4lPortStatusMessage ptp4l_port_status_msg = 8;
+    // A PTP4L status message.
     Ptp4lStatusMessage ptp4l_status_msg = 9;
+    // A PHC2SYS status message.
     Phc2SysStatusMessage phc2sys_status_msg = 10;
   }
 }

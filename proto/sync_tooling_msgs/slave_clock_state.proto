@@ -2,9 +2,14 @@ syntax = "proto3";
 
 import "sync_tooling_msgs/servo_state.proto";
 
+// The state of a slave clock in PHC2SYS, including timing information as reported by PHC2SYS.
 message SlaveClockState {
+    // The state of the clock servo
     ServoState servo_state = 1;
+    // The offset of the clock from the source clock in nanoseconds, i.e. time(src) - time(dst)
     int64 offset_ns = 2;
+    // The delay between reading the source clock time and writing it to the destination clock
     uint64 delay_ns = 3;
+    // The frequency offset of the clock from the source clock in parts per billion
     int64 frequency_offset_ppb = 4;
 }

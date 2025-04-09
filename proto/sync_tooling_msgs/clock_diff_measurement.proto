@@ -12,7 +12,10 @@ sensor data and comparing it with packet ingress time in the driver.
 This kind of measurement can be more inaccurate than those produced by PTP or PHC2SYS directly.
 */
 message ClockDiffMeasurement {
+  // The clock to measure the difference from
   ClockId src = 1;
+  // The clock to measure the difference to
   ClockId dst = 2;
+  // The difference in nanoseconds, i.e. `time(dst) - time(src)``
   int64 diff_ns = 3;
 }

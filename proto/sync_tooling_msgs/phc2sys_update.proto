@@ -3,8 +3,12 @@ syntax = "proto3";
 import "sync_tooling_msgs/clock_id.proto";
 import "sync_tooling_msgs/slave_clock_state.proto";
 
+// An update relating a clock to its PHC2SYS source, along with an offset measurement.
 message Phc2SysUpdate {
+    // The source clock of the PHC2SYS instance
     ClockId src = 1;
+    // The destination clock
     ClockId dst = 2;
+    // The state of the destination clock, including the offset measurement
     SlaveClockState clock_state = 3;
 }

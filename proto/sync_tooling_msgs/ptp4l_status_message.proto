@@ -4,10 +4,15 @@ import "sync_tooling_msgs/clock_id.proto";
 import "sync_tooling_msgs/warning.proto";
 import "sync_tooling_msgs/error.proto";
 
+// A log message from a PTP4L instance that expresses a warning or an error.
 message Ptp4lStatusMessage {
+  // The ID of the affected clock
   ClockId clock_id = 1;
+  // The severity of the message
   oneof severity {
+    // The warning message
     Warning warning = 2;
+    // The error message
     Error error = 3;
   } 
 }

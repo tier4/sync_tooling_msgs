@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+// Expresses an unknown diagnostic status
 message Unknown {
+  // An optional message providing details as to why the status is unknown
   optional string msg = 1;
 }

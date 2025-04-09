@@ -1,5 +1,12 @@
 syntax = "proto3";
 
+/* A unique clock ID as defined in the IEEE 1588 standard.
+
+PTP clock IDs are of the form `xxxxxx.xxxx.xxxxxx` with `x` being a hexadecimal digit.
+Most clocks have a clock ID of the form `mmmmmm.fffe.mmmmmm` where `m` is a byte of the clock's
+MAC address.
+*/
 message PtpClockId {
+  // The clock ID in PTP format
   string id = 1;
 }

@@ -1,6 +1,9 @@
 syntax = "proto3";
 
+// A unique identifier for a clock device on a given Linux host
 message LinuxClockDeviceId {
+  // The hostname of the host
   string hostname = 1;
+  // The number of the clock device on the host, e.g. `0` for `/dev/ptp0`
   int32 clock_device_number = 2;
 }

@@ -1,15 +1,35 @@
 syntax = "proto3";
 
+/* The state of a PTP port as defined in LinuxPTP.
+This is a superset of the port states defined in the IEEE 1588 standard.
+
+In IEEE 802.1AS, only the states `PS_MASTER`, `PS_SLAVE`, `PS_DISABLED` and `PS_PASSIVE` are
+valid.
+
+See [LinuxPTP](https://github.com/richardcochran/linuxptp/blob/a0154d343e7665c97652b9416e6b9576277c6231/fsm.h#L24-L34)
+for more details.
+*/
 enum PortState {
+	// An invalid port state
   PS_UNKNOWN = 0;
+	// The port is initializing
 	PS_INITIALIZING = 1;
+	// The port is faulty
 	PS_FAULTY = 2;
+	// The port is disabled
 	PS_DISABLED = 3;
+	// The port is listening for a master
 	PS_LISTENING = 4;
+	// The port is a pre-master
 	PS_PRE_MASTER = 5;
+	// The port is a master
 	PS_MASTER = 6;
+	// The port is passive
 	PS_PASSIVE = 7;
+	// The port is uncalibrated
 	PS_UNCALIBRATED = 8;
+	// The port is a slave
 	PS_SLAVE = 9;
-	PS_GRAND_MASTER = 10; /*non-standard PTP4L extension*/
+	// The port is a grand master
+	PS_GRAND_MASTER = 10;
 };

@@ -2,8 +2,16 @@ syntax = "proto3";
 
 import "sync_tooling_msgs/clock_id.proto";
 
+/* A unique identifier for a PTP port on a given clock.
+
+A port is uniquely identified by its clock, port number and the PTP domain it operates in.
+The clock ID is subject to aliasing and alias resolution via `ClockAliasUpdate`s.
+*/
 message PortId {
+  // The clock ID of the clock the port belongs to
   ClockId clock_id = 1;
+  // The number of the port on the clock
   int32 port_number = 2;
+  // The PTP domain the port belongs to
   int32 ptp_domain = 3;
 }

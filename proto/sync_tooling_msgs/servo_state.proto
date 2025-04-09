@@ -1,8 +1,19 @@
 syntax = "proto3";
 
+/* The state of a clock servo as used in LinuxPTP.
+
+A clock servo is a component that smoothly adjusts the clock to minimize tracking error.
+
+See [LinuxPTP](https://github.com/richardcochran/linuxptp/blob/a0154d343e7665c97652b9416e6b9576277c6231/servo.h#L41-L67)
+for more details.
+*/
 enum ServoState {
+	// The servo is unlocked (not synchronized)
 	SERVO_UNLOCKED = 0;
+	// The servo requests a clock jump to be able to track
 	SERVO_JUMP = 1;
+	// The servo is locked (synchronized)
 	SERVO_LOCKED = 2;
+	// The servo is locked within a user-defined accuracy threshold (synchronized)
 	SERVO_LOCKED_STABLE = 3;
 };

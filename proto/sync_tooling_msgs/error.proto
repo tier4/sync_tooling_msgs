@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+// An error status with an attached message
 message Error {
+  // The error message. Has to be set.
   string msg = 1;
 }
