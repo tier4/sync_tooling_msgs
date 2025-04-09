@@ -1,3 +1,5 @@
+"""Utility functions for diagnostic trees"""
+
 from sync_tooling_msgs.diag_status_pb2 import DiagStatus
 from sync_tooling_msgs.diag_tree_pb2 import DiagTree
 from sync_tooling_msgs.error_pb2 import Error
@@ -7,6 +9,18 @@ from sync_tooling_msgs.warning_pb2 import Warning
 
 
 def precedence(status: DiagStatus) -> int:
+    """
+    Return the precedence (= severity) of a diagnostic status.
+
+    Args:
+        status: The diagnostic status to get the precedence of
+
+    Raises:
+        ValueError: If the status is invalid (e.g. uninitialized)
+
+    Returns:
+        0 for `Ok`, 1 for `Unknown`, 2 for `Warning`, 3 for `Error`
+    """
     match status.WhichOneof("status"):
         case "ok":
             return 0
@@ -20,8 +34,23 @@ def precedence(status: DiagStatus) -> int:
 
 
 def to_diag_tree(
-    proto: DiagStatus | Ok | Warning | Error | Unknown | list | dict,
+    proto: DiagTree | DiagStatus | Ok | Warning | Error | Unknown | list | dict,
 ) -> DiagTree:
+    """
+    Convert a diagnostic status, list or dictionary to a diagnostic tree.
+
+    If performed on a list or dictionary, the conversion is performed recursively and the items
+    have to be convertible themselves.
+
+    Args:
+        proto: The diagnostic status, list or dictionary to convert
+
+    Raises:
+        ValueError: If the input is not convertible
+
+    Returns:
+        The converted diagnostic tree
+    """
     match proto:
         case DiagTree():
             return proto
@@ -46,7 +75,42 @@ def to_diag_tree(
     raise ValueError(f"Could not convert {type(proto)} to DiagTree")
 
 
-def prettify(diag_tree: DiagTree, indent=0) -> str:
+def prettify(diag_tree: DiagTree, indent: int=0) -> str:
+    """
+    Stringify a diagnostic tree in a human-readable format.
+
+    Examples:
+        * `Ok()` -> `Ok`
+        * `Error(msg="my message")` -> `Error(my message)`
+        * `[]` -> `[]`
+        * `[Ok(), Error(msg="my message")]` -> 
+            
+            ```
+            [
+                Ok,
+                Error(my message)
+            ]
+            ```
+        * `{"a": Ok(), "b": Error(msg="my message")}` ->
+            
+            ```
+            {
+                a: Ok,
+                b: Error(my message)
+            }
+            ```
+
+    Args:
+        diag_tree: The diagnostic tree to stringify
+        indent: The number of spaces to indent per level. Defaults to 0.
+
+    Raises:
+        ValueError: If the tree is invalid (e.g. uninitialized)
+
+    Returns:
+        The stringified diagnostic tree
+    """
+
     lpad = "  " * indent
 
     match diag_tree.WhichOneof("tree"):
@@ -75,10 +139,26 @@ def prettify(diag_tree: DiagTree, indent=0) -> str:
 
             lf = "\n"
             return f"{lpad}{{\n{lf.join([f'{k}: {prettify(t, indent + 1)}' for k, t in subtrees.items()])}\n{lpad}}}"
-    raise AssertionError()
+    raise ValueError("Invalid diagnostic tree")
 
 
 def aggregate(diag_tree: DiagTree) -> DiagStatus:
+    """
+    Aggregate a diagnostic tree into a single diagnostic status, keeping the highest severity
+    status.
+
+    The final diagnostic message is the one of the highest severity status. If there are
+    multiple statuses with the same severity, the message of one of them is used.
+
+    Args:
+        diag_tree: The diagnostic tree to aggregate
+
+    Raises:
+        ValueError: If the tree is invalid (e.g. uninitialized)
+
+    Returns:
+        The aggregated diagnostic status
+    """
     match diag_tree.WhichOneof("tree"):
         case "status":
             return diag_tree.status
@@ -96,10 +176,33 @@ def aggregate(diag_tree: DiagTree) -> DiagStatus:
 
             max_status = max(map(aggregate, subtrees.values()), key=precedence)
             return max_status
-    raise AssertionError()
+    raise ValueError("Invalid diagnostic tree")
 
 
 def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus]:
+    """
+    Flatten a diagnostic tree into a dictionary of path -> status.
+
+    The components of the path are separated by dots.
+
+    Examples:
+        * `Ok()` -> `{"status": Ok()}`
+        * `[Ok(), Error(msg="my message")]` ->
+
+            ```
+            {
+                "0.status": Ok(),
+                "1.status": Error(my message)
+            }
+            ```
+
+    Args:
+        diag_tree: The diagnostic tree to flatten
+
+    Returns:
+        The flattened diagnostic tree
+    """
+
     def concat_labels(a: str, b: str | None):
         return a if b is None else f"{a}.{b}"
 

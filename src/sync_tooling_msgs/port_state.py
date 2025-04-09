@@ -1,6 +1,9 @@
+"""Utility functions for PTP port states"""
+
 import bidict
 
 from sync_tooling_msgs.diag_tree import to_diag_tree
+from sync_tooling_msgs.diag_tree_pb2 import DiagTree
 from sync_tooling_msgs.error_pb2 import Error
 from sync_tooling_msgs.ok_pb2 import Ok
 from sync_tooling_msgs.port_state_pb2 import PortState as PS
@@ -23,14 +26,32 @@ PORT_STATE_NAMES = bidict.bidict(
 
 
 def port_state_name(state: PS.ValueType) -> str:
+    """Return the canonical name for the given port state enum value"""
     return PORT_STATE_NAMES[state]
 
 
 def port_state_value(name: str) -> PS.ValueType:
+    """Return the enum value for the given canonical port state name"""
     return PORT_STATE_NAMES.inverse[name]
 
 
-def diagnose_port_state(state: PS.ValueType):
+def diagnose_port_state(state: PS.ValueType) -> DiagTree:
+    """
+    Diagnose a given port state enum value.
+
+    For valid operational states, the diagnostic tree is of type `Ok`. For transient states
+    and invalid states, the diagnostic tree is of type `Error`.
+
+    Specifically, the state is only `Ok` if the port state is `PS_MASTER`, `PS_SLAVE`,
+    `PS_DISABLED`, `PS_PASSIVE`, or `PS_GRAND_MASTER`.
+
+    Args:
+        state: The port state enum value to diagnose
+
+    Returns:
+        The diagnostic tree for the given port state. This is always a tree of type `Ok` or
+        `Error`.
+    """
     match state:
         case PS.PS_UNKNOWN:
             return to_diag_tree(Error(msg="Invalid port state"))

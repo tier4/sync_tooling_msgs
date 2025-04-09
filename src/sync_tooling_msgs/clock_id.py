@@ -1,3 +1,5 @@
+"""Utility functions for clock IDs"""
+
 import re
 
 from sync_tooling_msgs.clock_id_pb2 import ClockId
@@ -9,6 +11,29 @@ from sync_tooling_msgs.system_clock_id_pb2 import SystemClockId
 
 
 def readable_clock_id(clock_id: ClockId) -> str:
+    """
+    Convert a clock ID to a human-readable string.
+
+    Outputs of this function are canonical and can be parsed back using
+    [parse_clock_id][sync_tooling_msgs.clock_id.parse_clock_id].
+    See that function for possible ambiguities.
+
+    Examples:
+        * `sensor_id`: `sensor_name@192.168.1.100`
+        * `interface_id`: `hostname.eth0`
+        * `linux_clock_device_id`: `hostname.ptp1`
+        * `ptp_clock_id`: `123456.fffe.123456`
+        * `system_clock_id`: `hostname.sys`
+
+    Args:
+        clock_id: The clock ID to convert.
+
+    Raises:
+        NotImplementedError: If the clock ID type is not supported (e.g. uninitialized IDs)
+
+    Returns:
+       The human-readable string
+    """
     match clock_id.WhichOneof("id"):
         case "sensor_id":
             id = clock_id.sensor_id
@@ -86,7 +111,16 @@ def parse_clock_id(string: str) -> ClockId:
     raise ValueError("Cannot parse clock id")
 
 
-def readable_clock_type(clock_id: ClockId):
+def readable_clock_type(clock_id: ClockId) -> str:
+    """
+    Return a human-readable clock type for the given clock ID.
+
+    Args:
+        clock_id: The clock ID to get the type of
+
+    Returns:
+        The human-readable clock type
+    """
     type_names = {
         "sensor_id": "Sensor",
         "interface_id": "Network interface",
