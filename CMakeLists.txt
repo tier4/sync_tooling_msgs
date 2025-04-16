@@ -30,6 +30,7 @@ set(PROTO_FILES
   ptp_parent_update.proto
   ptp4l_port_status_message.proto
   ptp4l_status_message.proto
+  self_reported_clock_state_update.proto
   servo_state.proto
   slave_clock_state.proto
   system_clock_id.proto

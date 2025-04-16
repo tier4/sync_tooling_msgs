@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "sync_tooling_msgs/clock_id.proto";
+
+// An update containing the self-reported state of a clock.
+message SelfReportedClockStateUpdate {
+  // A self-reported state of a clock, e.g. that of a sensor.
+  enum State {
+    // This is a sentinel value indicating an invalid state.
+    INVALID = 0;
+    // The clock is unsynchronized.
+    UNSYNCHRONIZED = 1;
+    // The clock is tracking (i.e. trying to synchronize, but not yet within a
+    // given tolerance).
+    TRACKING = 2;
+    // The clock is locked (i.e. synchronized within a given tolerance).
+    LOCKED = 3;
+    // The clock is lost (i.e. the clock has been synchronized before but is now
+    // unsynchronized).
+    LOST = 4;
+  }
+
+  // The ID of the clock. Has to be a valid clock ID.
+  ClockId clock_id = 1;
+  // The new state of the clock.
+  State state = 2;
+}
