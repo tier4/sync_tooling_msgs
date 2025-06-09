@@ -1,9 +1,7 @@
 syntax = "proto3";
 
-// A unique clock ID for a sensor. It consists of an arbitrary sensor name and its IP address.
+// A unique clock ID for a sensor. It is identical to the frame ID of the sensor.
 message SensorId {
-  // The name of the sensor.
-  string name = 1;
-  // The IP address of the sensor
-  string ip = 2;
+  // The frame ID of the sensor.
+  string frame_id = 1;
 }

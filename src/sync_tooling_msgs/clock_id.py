@@ -37,7 +37,7 @@ def readable_clock_id(clock_id: ClockId) -> str:
     match clock_id.WhichOneof("id"):
         case "sensor_id":
             id = clock_id.sensor_id
-            return f"{id.name}@{id.ip}"
+            return f"sensor@{id.frame_id}"
         case "interface_id":
             id = clock_id.interface_id
             return f"{id.hostname}.{id.interface_name}"
@@ -81,9 +81,7 @@ def parse_clock_id(string: str) -> ClockId:
     # interface name validation from: https://unix.stackexchange.com/a/532650
     re_iface = f"{re_hostname}.(?P<iface_name>[^/ ]+)"
 
-    # from: https://stackoverflow.com/a/36760050
-    re_ipv4 = r"((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}"
-    re_sensor = f"(?P<name>.+)@(?P<ip>{re_ipv4})"
+    re_sensor = "sensor@(?P<frame_id>.+)"
 
     if m := re.fullmatch(re_sys, string):
         return ClockId(system_clock_id=SystemClockId(hostname=m["hostname"]))
@@ -99,7 +97,7 @@ def parse_clock_id(string: str) -> ClockId:
         return ClockId(ptp_clock_id=PtpClockId(id=string))
 
     if m := re.fullmatch(re_sensor, string):
-        return ClockId(sensor_id=SensorId(name=m["name"], ip=m["ip"]))
+        return ClockId(sensor_id=SensorId(frame_id=m["frame_id"]))
 
     if m := re.fullmatch(re_iface, string):
         return ClockId(

@@ -7,13 +7,13 @@ from sync_tooling_msgs.sensor_id_pb2 import SensorId
 
 @pytest.fixture
 def clock_id_test1():
-  return ClockId(sensor_id=SensorId(name="test", ip="192.168.1.201"))
+  return ClockId(sensor_id=SensorId(frame_id="test"))
 @pytest.fixture
 def clock_id_test2():
-  return ClockId(sensor_id=SensorId(name="test", ip="192.168.1.201"))
+  return ClockId(sensor_id=SensorId(frame_id="test"))
 @pytest.fixture
 def clock_id_other():
-  return ClockId(sensor_id=SensorId(name="other", ip="192.168.1.202"))
+  return ClockId(sensor_id=SensorId(frame_id="other"))
 @pytest.fixture
 def clock_id_empty():
   return ClockId()
