@@ -23,6 +23,7 @@ build-backend = "hatchling.build"
 packages = ["src/sync_tooling_msgs"]
 
 [tool.pytest.ini_options]
+python_files = ["test_*.py", "*_test.py", "*_examples.py"]
 addopts = ["--import-mode=importlib"]
 
 [tool.hatch.build.hooks.protobuf]

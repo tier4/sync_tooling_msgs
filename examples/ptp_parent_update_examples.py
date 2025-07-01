@@ -18,4 +18,4 @@ def test_ptp_parent_child_relationship():
 
     graph_update = GraphUpdate(ptp_parent_update=parent_update)
     # --8<-- [end:ptp_parent_child]
-    return graph_update
+    assert graph_update.WhichOneof("update")

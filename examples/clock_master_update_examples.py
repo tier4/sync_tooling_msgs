@@ -15,7 +15,7 @@ def test_master_slave_relationship():
 
     graph_update = GraphUpdate(clock_master_update=master_update)
     # --8<-- [end:master_slave_relationship]
-    return graph_update
+    assert graph_update.WhichOneof("update")
 
 
 def test_no_master_update():
@@ -26,4 +26,4 @@ def test_no_master_update():
 
     graph_update = GraphUpdate(clock_master_update=master_update)
     # --8<-- [end:no_master]
-    return graph_update
+    assert graph_update.WhichOneof("update")

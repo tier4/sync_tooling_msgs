@@ -18,4 +18,4 @@ def test_port_state_update():
 
     graph_update = GraphUpdate(port_state_update=port_state_update)
     # --8<-- [end:port_state_update]
-    return graph_update
+    assert graph_update.WhichOneof("update")

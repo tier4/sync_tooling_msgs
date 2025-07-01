@@ -18,4 +18,4 @@ def test_self_reported_clock_state():
 
     graph_update = GraphUpdate(self_reported_clock_state_update=clock_state_update)
     # --8<-- [end:self_reported_clock_state]
-    return graph_update
+    assert graph_update.WhichOneof("update")

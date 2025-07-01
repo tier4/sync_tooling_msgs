@@ -22,4 +22,4 @@ def test_phc2sys_synchronization():
 
     graph_update = GraphUpdate(phc2sys_update=phc2sys_update)
     # --8<-- [end:phc2sys_sync]
-    return graph_update
+    assert graph_update.WhichOneof("update")

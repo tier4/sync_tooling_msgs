@@ -15,4 +15,4 @@ def test_basic_clock_alias_update():
     alias_update = ClockAliasUpdate(aliases=[ptp_clock_id, system_clock_id])
     graph_update = GraphUpdate(clock_alias_update=alias_update)
     # --8<-- [end:basic_alias]
-    return graph_update
+    assert graph_update.WhichOneof("update")

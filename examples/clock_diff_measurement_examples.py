@@ -16,4 +16,4 @@ def test_clock_diff_measurement():
 
     graph_update = GraphUpdate(clock_diff_measurement=diff_measurement)
     # --8<-- [end:clock_diff_measurement]
-    return graph_update
+    assert graph_update.WhichOneof("update")
