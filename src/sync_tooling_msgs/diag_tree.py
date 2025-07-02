@@ -75,7 +75,7 @@ def to_diag_tree(
     raise ValueError(f"Could not convert {type(proto)} to DiagTree")
 
 
-def prettify(diag_tree: DiagTree, indent: int=0) -> str:
+def prettify(diag_tree: DiagTree, indent: int = 0) -> str:
     """
     Stringify a diagnostic tree in a human-readable format.
 
@@ -83,8 +83,8 @@ def prettify(diag_tree: DiagTree, indent: int=0) -> str:
         * `Ok()` -> `Ok`
         * `Error(msg="my message")` -> `Error(my message)`
         * `[]` -> `[]`
-        * `[Ok(), Error(msg="my message")]` -> 
-            
+        * `[Ok(), Error(msg="my message")]` ->
+
             ```
             [
                 Ok,
@@ -92,7 +92,7 @@ def prettify(diag_tree: DiagTree, indent: int=0) -> str:
             ]
             ```
         * `{"a": Ok(), "b": Error(msg="my message")}` ->
-            
+
             ```
             {
                 a: Ok,
@@ -142,7 +142,7 @@ def prettify(diag_tree: DiagTree, indent: int=0) -> str:
     raise ValueError("Invalid diagnostic tree")
 
 
-def aggregate(diag_tree: DiagTree) -> DiagStatus:
+def aggregate(diag_tree: DiagTree, default: DiagStatus | None = None) -> DiagStatus:
     """
     Aggregate a diagnostic tree into a single diagnostic status, keeping the highest severity
     status.
@@ -152,6 +152,8 @@ def aggregate(diag_tree: DiagTree) -> DiagStatus:
 
     Args:
         diag_tree: The diagnostic tree to aggregate
+        default: The default status to return if the tree is empty, or if none of the statuses
+            in the tree have a higher severity than the default.
 
     Raises:
         ValueError: If the tree is invalid (e.g. uninitialized)
@@ -159,22 +161,30 @@ def aggregate(diag_tree: DiagTree) -> DiagStatus:
     Returns:
         The aggregated diagnostic status
     """
+
+    if default is None:
+        default = DiagStatus(ok=Ok())
+
     match diag_tree.WhichOneof("tree"):
         case "status":
             return diag_tree.status
         case "list":
             subtrees = diag_tree.list.list
             if not subtrees:
-                return DiagStatus(ok=Ok())
+                return default
 
             max_status = max(map(aggregate, subtrees), key=precedence)
+            if precedence(default) >= precedence(max_status):
+                return default
             return max_status
         case "map":
             subtrees = diag_tree.map.map
             if not subtrees:
-                return DiagStatus(ok=Ok())
+                return default
 
             max_status = max(map(aggregate, subtrees.values()), key=precedence)
+            if precedence(default) >= precedence(max_status):
+                return default
             return max_status
     raise ValueError("Invalid diagnostic tree")
 
@@ -204,7 +214,13 @@ def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus]:
     """
 
     def concat_labels(a: str, b: str | None):
-        return a if b is None else f"{a}.{b}"
+        if b is None:
+            return a
+
+        if b.startswith("["):
+            return f"{a}{b}"
+
+        return f"{a} › {b}"  # noqa: RUF001
 
     def internal_flatten(diag_tree: DiagTree) -> dict[str | None, DiagStatus]:
         match diag_tree.WhichOneof("tree"):
@@ -213,7 +229,8 @@ def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus]:
             case "list":
                 subtrees = diag_tree.list.list
                 subtrees = {
-                    str(i): flatten(subtree) for i, subtree in enumerate(subtrees)
+                    f"[{i}]": internal_flatten(subtree)
+                    for i, subtree in enumerate(subtrees)
                 }
                 return {
                     concat_labels(label, sub_label): item
@@ -223,7 +240,8 @@ def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus]:
             case "map":
                 subtrees = diag_tree.map.map
                 subtrees = {
-                    label: flatten(subtree) for label, subtree in subtrees.items()
+                    label: internal_flatten(subtree)
+                    for label, subtree in subtrees.items()
                 }
                 return {
                     concat_labels(label, sub_label): item
