@@ -24,5 +24,7 @@ message DiagTree {
     DiagList list = 2;
     // A mapping of strings to diagnostic trees
     DiagMap map = 3;
+    // Metadata such as notes or parameters, that are not a diagnostic status
+    string comment = 4;
   }
 }

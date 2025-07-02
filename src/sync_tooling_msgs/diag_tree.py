@@ -34,7 +34,7 @@ def precedence(status: DiagStatus) -> int:
 
 
 def to_diag_tree(
-    proto: DiagTree | DiagStatus | Ok | Warning | Error | Unknown | list | dict,
+    proto: DiagTree | DiagStatus | Ok | Warning | Error | Unknown | list | dict | str,
 ) -> DiagTree:
     """
     Convert a diagnostic status, list or dictionary to a diagnostic tree.
@@ -72,6 +72,8 @@ def to_diag_tree(
             return to_diag_tree(DiagStatus(error=proto))
         case Unknown():
             return to_diag_tree(DiagStatus(unknown=proto))
+        case str():
+            return DiagTree(comment=proto)
     raise ValueError(f"Could not convert {type(proto)} to DiagTree")
 
 
@@ -139,6 +141,8 @@ def prettify(diag_tree: DiagTree, indent: int = 0) -> str:
 
             lf = "\n"
             return f"{lpad}{{\n{lf.join([f'{k}: {prettify(t, indent + 1)}' for k, t in subtrees.items()])}\n{lpad}}}"
+        case "comment":
+            return lpad + diag_tree.comment
     raise ValueError("Invalid diagnostic tree")
 
 
@@ -186,10 +190,52 @@ def aggregate(diag_tree: DiagTree, default: DiagStatus | None = None) -> DiagSta
             if precedence(default) >= precedence(max_status):
                 return default
             return max_status
+        case "comment":
+            return default
     raise ValueError("Invalid diagnostic tree")
 
 
-def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus]:
+def _concat_labels(a: str, b: str | None):
+    if b is None:
+        return a
+
+    if b.startswith("["):
+        return f"{a}{b}"
+
+    return f"{a} › {b}"  # noqa: RUF001
+
+def _internal_flatten(diag_tree: DiagTree) -> dict[str | None, DiagStatus | str]:
+    match diag_tree.WhichOneof("tree"):
+        case "status":
+            return {None: diag_tree.status}
+        case "list":
+            subtrees = diag_tree.list.list
+            subtrees = {
+                f"[{i}]": _internal_flatten(subtree)
+                for i, subtree in enumerate(subtrees)
+            }
+            return {
+                _concat_labels(label, sub_label): item
+                for label, subtree in subtrees.items()
+                for sub_label, item in subtree.items()
+            }
+        case "map":
+            subtrees = diag_tree.map.map
+            subtrees = {
+                label: _internal_flatten(subtree)
+                for label, subtree in subtrees.items()
+            }
+            return {
+                _concat_labels(label, sub_label): item
+                for label, subtree in subtrees.items()
+                for sub_label, item in subtree.items()
+            }
+        case "comment":
+            return {None: diag_tree.comment}
+    raise AssertionError()
+
+
+def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus | str]:
     """
     Flatten a diagnostic tree into a dictionary of path -> status.
 
@@ -213,46 +259,13 @@ def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus]:
         The flattened diagnostic tree
     """
 
-    def concat_labels(a: str, b: str | None):
-        if b is None:
-            return a
-
-        if b.startswith("["):
-            return f"{a}{b}"
-
-        return f"{a} › {b}"  # noqa: RUF001
-
-    def internal_flatten(diag_tree: DiagTree) -> dict[str | None, DiagStatus]:
-        match diag_tree.WhichOneof("tree"):
-            case "status":
-                return {None: diag_tree.status}
-            case "list":
-                subtrees = diag_tree.list.list
-                subtrees = {
-                    f"[{i}]": internal_flatten(subtree)
-                    for i, subtree in enumerate(subtrees)
-                }
-                return {
-                    concat_labels(label, sub_label): item
-                    for label, subtree in subtrees.items()
-                    for sub_label, item in subtree.items()
-                }
-            case "map":
-                subtrees = diag_tree.map.map
-                subtrees = {
-                    label: internal_flatten(subtree)
-                    for label, subtree in subtrees.items()
-                }
-                return {
-                    concat_labels(label, sub_label): item
-                    for label, subtree in subtrees.items()
-                    for sub_label, item in subtree.items()
-                }
-        raise AssertionError()
-
-    flattened = internal_flatten(diag_tree)
+    flattened = _internal_flatten(diag_tree)
     if None in flattened:
-        flattened["status"] = flattened[None]
+        match flattened[None]:
+            case DiagStatus():
+                flattened["status"] = flattened[None]
+            case str():
+                flattened["comment"] = flattened[None]
         del flattened[None]
 
-    return flattened  # type: ignore
+    return flattened # type: ignore
