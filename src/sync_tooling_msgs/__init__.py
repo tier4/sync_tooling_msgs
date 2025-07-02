@@ -1,5 +1,7 @@
 from google.protobuf.message import Message
 
+from sync_tooling_msgs.clock_id import readable_clock_id
+
 from .clock_id_pb2 import ClockId
 from .graph_update_pb2 import GraphUpdate
 from .port_id_pb2 import PortId
@@ -22,4 +24,5 @@ def _proto_hash(message: Message):
 
 GraphUpdate.__hash__ = _proto_hash  # type: ignore
 ClockId.__hash__ = _proto_hash  # type: ignore
+ClockId.__str__ = readable_clock_id # type: ignore
 PortId.__hash__ = _proto_hash  # type: ignore
