@@ -57,14 +57,14 @@ def diagnose_clock_state(
     """
     match state:
         case SelfReportedClockStateUpdate.State.INVALID:
-            return to_diag_tree(Error(msg="Invalid clock state"))
+            return to_diag_tree(Error(msg="Clock reports an invalid state"))
         case SelfReportedClockStateUpdate.State.UNSYNCHRONIZED:
-            return to_diag_tree(Error(msg="Clock is not synchronized"))
+            return to_diag_tree(Error(msg="Clock reports to be unsynchronized"))
         case SelfReportedClockStateUpdate.State.TRACKING:
-            return to_diag_tree(Warning(msg="Clock is tracking"))
+            return to_diag_tree(Warning(msg="Clock reports to be tracking"))
         case SelfReportedClockStateUpdate.State.LOCKED:
-            return to_diag_tree(Ok(msg="Clock is locked"))
+            return to_diag_tree(Ok(msg="Clock reports to be locked"))
         case SelfReportedClockStateUpdate.State.LOST:
-            return to_diag_tree(Error(msg="Clock lost synchronization"))
+            return to_diag_tree(Error(msg="Clock reports to have lost synchronization"))
         case _:
             raise AssertionError(f"Unknown clock state: {state}")
