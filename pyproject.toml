@@ -1,6 +1,6 @@
 [project]
 name = "sync-tooling-msgs"
-version = "0.2.1"
+version = "0.2.2"
 description = "Protobuf definitions for sync tooling."
 authors = [{ name = "Max SCHMELLER", email = "max.schmeller@tier4.jp" }]
 requires-python = ">=3.10"
