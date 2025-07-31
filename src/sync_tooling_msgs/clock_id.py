@@ -45,7 +45,7 @@ def readable_clock_id(clock_id: ClockId) -> str:
             id = clock_id.linux_clock_device_id
             return f"{id.hostname}.ptp{id.clock_device_number}"
         case "ptp_clock_id":
-            return clock_id.ptp_clock_id.id
+            return f"{clock_id.ptp_clock_id.domain}:{clock_id.ptp_clock_id.id}"
         case "system_clock_id":
             id = clock_id.system_clock_id
             return f"{id.hostname}.sys"
@@ -76,7 +76,7 @@ def parse_clock_id(string: str) -> ClockId:
     re_clock_dev = f"{re_hostname}.ptp(?P<device_num>\\d+)"
 
     re_hex = r"[A-Fa-f0-9]"
-    re_ptp = f"{re_hex}{{6}}.{re_hex}{{4}}.{re_hex}{{6}}"
+    re_ptp = f"(?P<domain>\\d+):(?P<id>{re_hex}{{6}}.{re_hex}{{4}}.{re_hex}{{6}})"
 
     # interface name validation from: https://unix.stackexchange.com/a/532650
     re_iface = f"{re_hostname}.(?P<iface_name>[^/ ]+)"
@@ -94,7 +94,7 @@ def parse_clock_id(string: str) -> ClockId:
         )
 
     if m := re.fullmatch(re_ptp, string):
-        return ClockId(ptp_clock_id=PtpClockId(id=string))
+        return ClockId(ptp_clock_id=PtpClockId(id=m["id"], domain=int(m["domain"])))
 
     if m := re.fullmatch(re_sensor, string):
         return ClockId(sensor_id=SensorId(frame_id=m["frame_id"]))

@@ -10,7 +10,7 @@ from sync_tooling_msgs.ptp_clock_id_pb2 import PtpClockId
 
 def test_port_state_update():
     # --8<-- [start:port_state_update]
-    clock = ClockId(ptp_clock_id=PtpClockId(id="111111.fffe.111111"))
+    clock = ClockId(ptp_clock_id=PtpClockId(id="111111.fffe.111111", domain=0))
 
     port = PortId(clock_id=clock, port_number=1, ptp_domain=0)
 

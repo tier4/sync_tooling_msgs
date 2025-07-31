@@ -33,7 +33,7 @@ def linux_clock_id():
 
 @pytest.fixture
 def ptp_clock_id():
-    return ClockId(ptp_clock_id=PtpClockId(id="12af56.fffe.65EC21"))
+    return ClockId(ptp_clock_id=PtpClockId(id="12af56.fffe.65EC21", domain=0))
 
 
 @pytest.fixture

@@ -11,7 +11,7 @@ from sync_tooling_msgs.system_clock_id_pb2 import SystemClockId
 
 def test_phc2sys_synchronization():
     # --8<-- [start:phc2sys_sync]
-    src_hw_clock = ClockId(ptp_clock_id=PtpClockId(id="111111.fffe.111111"))
+    src_hw_clock = ClockId(ptp_clock_id=PtpClockId(id="111111.fffe.111111", domain=1))
     dst_sys_clock = ClockId(system_clock_id=SystemClockId(hostname="my_host"))
 
     clock_state = SlaveClockState(offset_ns=1, servo_state=ServoState.SERVO_LOCKED)

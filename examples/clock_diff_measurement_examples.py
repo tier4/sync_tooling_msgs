@@ -9,7 +9,7 @@ from sync_tooling_msgs.sensor_id_pb2 import SensorId
 
 def test_clock_diff_measurement():
     # --8<-- [start:clock_diff_measurement]
-    src = ClockId(ptp_clock_id=PtpClockId(id="111111.fffe.111111"))
+    src = ClockId(ptp_clock_id=PtpClockId(id="111111.fffe.111111", domain=3))
     dst = ClockId(sensor_id=SensorId(frame_id="lidar/top"))
 
     diff_measurement = ClockDiffMeasurement(src=src, dst=dst, diff_ns=20000)

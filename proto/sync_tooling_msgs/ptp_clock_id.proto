@@ -9,4 +9,6 @@ MAC address.
 message PtpClockId {
   // The clock ID in PTP format
   string id = 1;
+  // The PTP domain number this clock belongs to
+  int32 domain = 2;
 }

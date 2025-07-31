@@ -9,8 +9,8 @@ from sync_tooling_msgs.ptp_parent_update_pb2 import PtpParentUpdate
 
 def test_ptp_parent_child_relationship():
     # --8<-- [start:ptp_parent_child]
-    child = ClockId(ptp_clock_id=PtpClockId(id="111111.fffe.111111"))
-    parent = ClockId(ptp_clock_id=PtpClockId(id="222222.fffe.222222"))
+    child = ClockId(ptp_clock_id=PtpClockId(id="111111.fffe.111111", domain=0))
+    parent = ClockId(ptp_clock_id=PtpClockId(id="222222.fffe.222222", domain=0))
 
     parent_port = PortId(clock_id=parent, port_number=1, ptp_domain=0)
 
