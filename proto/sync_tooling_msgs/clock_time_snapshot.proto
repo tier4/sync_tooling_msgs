@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "sync_tooling_msgs/clock_id.proto";
+
+/*
+A graph update containing the time value of a clock.
+
+This message serves as a snapshot of the current time of a given clock.
+It serves as a sanity check for whether the clocks in a system are actually synchronized, even
+if PTP or PHC2SYS offsets are wrongly reported, incomplete, or missing.
+
+An example of such a scenario is a PTP4L instance that implicitly converts between UTC and TAI.
+*/
+message ClockTimeSnapshot {
+  // The clock for which the time is being measured
+  ClockId clock = 1;
+  // The clock's time in nanoseconds since the Unix epoch (1970-01-01T00:00:00Z)
+  uint64 time_ns = 2;
+}

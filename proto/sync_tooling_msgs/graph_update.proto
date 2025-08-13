@@ -10,6 +10,7 @@ import "sync_tooling_msgs/ptp4l_port_status_message.proto";
 import "sync_tooling_msgs/ptp4l_status_message.proto";
 import "sync_tooling_msgs/phc2sys_status_message.proto";
 import "sync_tooling_msgs/self_reported_clock_state_update.proto";
+import "sync_tooling_msgs/clock_time_snapshot.proto";
 /*
 An update to the synchronization graph.
 
@@ -42,5 +43,7 @@ message GraphUpdate {
     Phc2SysStatusMessage phc2sys_status_msg = 10;
     // An update containing the self-reported state of a clock.
     SelfReportedClockStateUpdate self_reported_clock_state_update = 11;
+    // A snapshot of the current time of a clock.
+    ClockTimeSnapshot clock_time_snapshot = 12;
   }
 }
