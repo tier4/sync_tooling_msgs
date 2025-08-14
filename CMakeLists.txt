@@ -13,6 +13,7 @@ set(PROTO_FILES
   clock_diff_measurement.proto
   clock_id.proto
   clock_master_update.proto
+  clock_time_snapshot.proto
   diag_status.proto
   diag_tree.proto
   error.proto
