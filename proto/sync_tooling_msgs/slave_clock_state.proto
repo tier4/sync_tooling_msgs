@@ -9,7 +9,8 @@ message SlaveClockState {
     // The offset of the clock from the source clock in nanoseconds, i.e. time(src) - time(dst)
     int64 offset_ns = 2;
     // The delay between reading the source clock time and writing it to the destination clock
-    uint64 delay_ns = 3;
+    // Although nonsensical, PTP4L reports this as negative in some cases
+    int64 delay_ns = 3;
     // The frequency offset of the clock from the source clock in parts per billion
     int64 frequency_offset_ppb = 4;
 }
