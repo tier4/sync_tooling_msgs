@@ -6,7 +6,7 @@
   <description>Protobuf definitions for synchronization diagnostics</description>
   <maintainer email="max.schmeller@tier4.jp">Max Schmeller</maintainer>
 
-  <license>Apache 2</license>
+  <license>Apache-2.0</license>
   <author>Tier IV</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
