@@ -36,8 +36,7 @@ def port_state_value(name: str) -> PS.ValueType:
 
 
 def diagnose_port_state(state: PS.ValueType) -> DiagTree:
-    """
-    Diagnose a given port state enum value.
+    """Diagnose a given port state enum value.
 
     For valid operational states, the diagnostic tree is of type `Ok`. For transient states
     and invalid states, the diagnostic tree is of type `Error`.
@@ -51,6 +50,7 @@ def diagnose_port_state(state: PS.ValueType) -> DiagTree:
     Returns:
         The diagnostic tree for the given port state. This is always a tree of type `Ok` or
         `Error`.
+
     """
     match state:
         case PS.PS_UNKNOWN:

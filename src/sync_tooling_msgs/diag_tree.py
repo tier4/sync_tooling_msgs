@@ -9,8 +9,7 @@ from sync_tooling_msgs.warning_pb2 import Warning
 
 
 def precedence(status: DiagStatus) -> int:
-    """
-    Return the precedence (= severity) of a diagnostic status.
+    """Return the precedence (= severity) of a diagnostic status.
 
     Args:
         status: The diagnostic status to get the precedence of
@@ -20,6 +19,7 @@ def precedence(status: DiagStatus) -> int:
 
     Returns:
         0 for `Ok`, 1 for `Unknown`, 2 for `Warning`, 3 for `Error`
+
     """
     match status.WhichOneof("status"):
         case "ok":
@@ -36,8 +36,7 @@ def precedence(status: DiagStatus) -> int:
 def to_diag_tree(
     proto: DiagTree | DiagStatus | Ok | Warning | Error | Unknown | list | dict | str,
 ) -> DiagTree:
-    """
-    Convert a diagnostic status, list or dictionary to a diagnostic tree.
+    """Convert a diagnostic status, list or dictionary to a diagnostic tree.
 
     If performed on a list or dictionary, the conversion is performed recursively and the items
     have to be convertible themselves.
@@ -50,6 +49,7 @@ def to_diag_tree(
 
     Returns:
         The converted diagnostic tree
+
     """
     match proto:
         case DiagTree():
@@ -78,8 +78,7 @@ def to_diag_tree(
 
 
 def prettify(diag_tree: DiagTree, indent: int = 0) -> str:
-    """
-    Stringify a diagnostic tree in a human-readable format.
+    """Stringify a diagnostic tree in a human-readable format.
 
     Examples:
         * `Ok()` -> `Ok`
@@ -111,8 +110,8 @@ def prettify(diag_tree: DiagTree, indent: int = 0) -> str:
 
     Returns:
         The stringified diagnostic tree
-    """
 
+    """
     lpad = "  " * indent
 
     match diag_tree.WhichOneof("tree"):
@@ -147,8 +146,7 @@ def prettify(diag_tree: DiagTree, indent: int = 0) -> str:
 
 
 def aggregate(diag_tree: DiagTree, default: DiagStatus | None = None) -> DiagStatus:
-    """
-    Aggregate a diagnostic tree into a single diagnostic status, keeping the highest severity
+    """Aggregate a diagnostic tree into a single diagnostic status, keeping the highest severity
     status.
 
     The final diagnostic message is the one of the highest severity status. If there are
@@ -164,8 +162,8 @@ def aggregate(diag_tree: DiagTree, default: DiagStatus | None = None) -> DiagSta
 
     Returns:
         The aggregated diagnostic status
-    """
 
+    """
     if default is None:
         default = DiagStatus(ok=Ok())
 
@@ -236,8 +234,7 @@ def _internal_flatten(diag_tree: DiagTree) -> dict[str | None, DiagStatus | str]
 
 
 def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus | str]:
-    """
-    Flatten a diagnostic tree into a dictionary of path -> status.
+    """Flatten a diagnostic tree into a dictionary of path -> status.
 
     The components of the path are separated by dots.
 
@@ -257,8 +254,8 @@ def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus | str]:
 
     Returns:
         The flattened diagnostic tree
-    """
 
+    """
     flattened = _internal_flatten(diag_tree)
     if None in flattened:
         match flattened[None]:

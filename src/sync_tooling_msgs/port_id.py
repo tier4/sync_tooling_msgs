@@ -5,8 +5,7 @@ from sync_tooling_msgs.port_id_pb2 import PortId
 
 
 def readable_port_id(port_id: PortId, include_domain: bool = True) -> str:
-    """
-    Return a human-readable string for the given port ID.
+    """Return a human-readable string for the given port ID.
 
     See [`readable_clock_id`][sync_tooling_msgs.clock_id.readable_clock_id] for the format of 
     clock IDs.
@@ -21,6 +20,7 @@ def readable_port_id(port_id: PortId, include_domain: bool = True) -> str:
 
     Returns:
         The human-readable port ID
+
     """
     readable_id = f"{readable_clock_id(port_id.clock_id)}-{port_id.port_number}"
     if (include_domain):

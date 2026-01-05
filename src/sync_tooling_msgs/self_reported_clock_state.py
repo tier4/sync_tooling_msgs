@@ -39,8 +39,7 @@ def clock_state_value(
 def diagnose_clock_state(
     state: SelfReportedClockStateUpdate.State.ValueType,
 ) -> DiagTree:
-    """
-    Diagnose a given clock state enum value.
+    """Diagnose a given clock state enum value.
 
     For valid states, the diagnostic tree is of type `Ok`. For transient states
     and invalid states, the diagnostic tree is of type `Error`.
@@ -54,6 +53,7 @@ def diagnose_clock_state(
     Returns:
         The diagnostic tree for the given clock state. This is always a tree of type `Ok` or
         `Error`.
+
     """
     match state:
         case SelfReportedClockStateUpdate.State.INVALID:

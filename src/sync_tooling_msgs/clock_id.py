@@ -11,8 +11,7 @@ from sync_tooling_msgs.system_clock_id_pb2 import SystemClockId
 
 
 def readable_clock_id(clock_id: ClockId) -> str:
-    """
-    Convert a clock ID to a human-readable string.
+    """Convert a clock ID to a human-readable string.
 
     Outputs of this function are canonical and can be parsed back using
     [parse_clock_id][sync_tooling_msgs.clock_id.parse_clock_id].
@@ -33,6 +32,7 @@ def readable_clock_id(clock_id: ClockId) -> str:
 
     Returns:
        The human-readable string
+
     """
     match clock_id.WhichOneof("id"):
         case "sensor_id":
@@ -54,8 +54,7 @@ def readable_clock_id(clock_id: ClockId) -> str:
 
 
 def parse_clock_id(string: str) -> ClockId:
-    """
-    Parses a string in the format produced by `readable_clock_id` into a clock ID.
+    """Parses a string in the format produced by `readable_clock_id` into a clock ID.
 
     Possible ambiguities:
     * an interface name ending with @ followed by a valid IPv4 address will be interpreted as a sensor ID
@@ -68,8 +67,8 @@ def parse_clock_id(string: str) -> ClockId:
 
     Returns:
         ClockId: The parsed, valid clock ID
-    """
 
+    """
     # see `man 7 hostname`
     re_hostname = r"(?P<hostname>[A-Za-z0-9][A-Za-z0-9\-]{,63})"
     re_sys = f"{re_hostname}.sys"
@@ -110,14 +109,14 @@ def parse_clock_id(string: str) -> ClockId:
 
 
 def readable_clock_type(clock_id: ClockId) -> str:
-    """
-    Return a human-readable clock type for the given clock ID.
+    """Return a human-readable clock type for the given clock ID.
 
     Args:
         clock_id: The clock ID to get the type of
 
     Returns:
         The human-readable clock type
+
     """
     type_names = {
         "sensor_id": "Sensor",

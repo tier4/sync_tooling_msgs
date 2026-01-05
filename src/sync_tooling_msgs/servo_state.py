@@ -29,8 +29,7 @@ def servo_state_value(name: str) -> ServoState.ValueType:
 
 
 def diagnose_servo_state(state: ServoState.ValueType) -> DiagTree:
-    """
-    Diagnose a given servo state enum value.
+    """Diagnose a given servo state enum value.
 
     For valid operational states, the diagnostic tree is of type `Ok`. For transient states
     and invalid states, the diagnostic tree is of type `Error`.
@@ -44,6 +43,7 @@ def diagnose_servo_state(state: ServoState.ValueType) -> DiagTree:
     Returns:
         The diagnostic tree for the given servo state. This is always a tree of type `Ok` or
         `Error`.
+
     """
     match state:
         case ServoState.SERVO_LOCKED | ServoState.SERVO_LOCKED_STABLE:

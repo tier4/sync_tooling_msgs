@@ -24,6 +24,7 @@ def _proto_hash(message: Message):
 
     Returns:
         int: The hash value
+
     """
     return hash(message.SerializePartialToString(deterministic=True))
 
