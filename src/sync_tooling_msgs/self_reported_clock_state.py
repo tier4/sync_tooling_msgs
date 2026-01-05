@@ -1,4 +1,4 @@
-"""Utility functions for self-reported clock states"""
+"""Utility functions for self-reported clock states."""
 
 import bidict
 
@@ -25,14 +25,14 @@ CLOCK_STATE_NAMES = bidict.bidict(
 def clock_state_name(
     state: SelfReportedClockStateUpdate.State.ValueType,
 ) -> str:
-    """Return the canonical name for the given clock state enum value"""
+    """Return the canonical name for the given clock state enum value."""
     return CLOCK_STATE_NAMES[state]
 
 
 def clock_state_value(
     name: str,
 ) -> SelfReportedClockStateUpdate.State.ValueType:
-    """Return the enum value for the given canonical clock state name"""
+    """Return the enum value for the given canonical clock state name."""
     return CLOCK_STATE_NAMES.inverse[name]
 
 

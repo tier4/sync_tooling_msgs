@@ -31,5 +31,5 @@ def _proto_hash(message: Message):
 
 GraphUpdate.__hash__ = _proto_hash  # type: ignore
 ClockId.__hash__ = _proto_hash  # type: ignore
-ClockId.__str__ = readable_clock_id # type: ignore
+ClockId.__str__ = readable_clock_id  # type: ignore
 PortId.__hash__ = _proto_hash  # type: ignore

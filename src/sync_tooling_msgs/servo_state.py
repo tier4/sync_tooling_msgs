@@ -1,4 +1,4 @@
-"""Utility functions for servo states"""
+"""Utility functions for servo states."""
 
 import bidict
 
@@ -19,12 +19,12 @@ SERVO_STATE_NAMES = bidict.bidict(
 
 
 def servo_state_name(state: ServoState.ValueType) -> str:
-    """Return the canonical name for the given servo state enum value"""
+    """Return the canonical name for the given servo state enum value."""
     return SERVO_STATE_NAMES[state]
 
 
 def servo_state_value(name: str) -> ServoState.ValueType:
-    """Return the enum value for the given canonical servo state name"""
+    """Return the enum value for the given canonical servo state name."""
     return SERVO_STATE_NAMES.inverse[name]
 
 
@@ -49,4 +49,6 @@ def diagnose_servo_state(state: ServoState.ValueType) -> DiagTree:
         case ServoState.SERVO_LOCKED | ServoState.SERVO_LOCKED_STABLE:
             return to_diag_tree(Ok(msg=f"Servo locked ({servo_state_name(state)})"))
         case _:
-            return to_diag_tree(Error(msg=f"Servo not locked ({servo_state_name(state)})"))
+            return to_diag_tree(
+                Error(msg=f"Servo not locked ({servo_state_name(state)})")
+            )

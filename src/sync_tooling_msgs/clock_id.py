@@ -1,4 +1,4 @@
-"""Utility functions for clock IDs"""
+"""Utility functions for clock IDs."""
 
 import re
 

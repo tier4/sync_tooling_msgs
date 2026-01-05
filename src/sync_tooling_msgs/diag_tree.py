@@ -1,4 +1,4 @@
-"""Utility functions for diagnostic trees"""
+"""Utility functions for diagnostic trees."""
 
 from sync_tooling_msgs.diag_status_pb2 import DiagStatus
 from sync_tooling_msgs.diag_tree_pb2 import DiagTree
@@ -146,8 +146,8 @@ def prettify(diag_tree: DiagTree, indent: int = 0) -> str:
 
 
 def aggregate(diag_tree: DiagTree, default: DiagStatus | None = None) -> DiagStatus:
-    """Aggregate a diagnostic tree into a single diagnostic status, keeping the highest severity
-    status.
+    """
+    Aggregate a diagnostic tree into a single status, keeping the highest severity status.
 
     The final diagnostic message is the one of the highest severity status. If there are
     multiple statuses with the same severity, the message of one of them is used.
@@ -202,6 +202,7 @@ def _concat_labels(a: str, b: str | None):
 
     return f"{a} › {b}"  # noqa: RUF001
 
+
 def _internal_flatten(diag_tree: DiagTree) -> dict[str | None, DiagStatus | str]:
     match diag_tree.WhichOneof("tree"):
         case "status":
@@ -220,8 +221,7 @@ def _internal_flatten(diag_tree: DiagTree) -> dict[str | None, DiagStatus | str]
         case "map":
             subtrees = diag_tree.map.map
             subtrees = {
-                label: _internal_flatten(subtree)
-                for label, subtree in subtrees.items()
+                label: _internal_flatten(subtree) for label, subtree in subtrees.items()
             }
             return {
                 _concat_labels(label, sub_label): item
@@ -265,4 +265,4 @@ def flatten(diag_tree: DiagTree) -> dict[str, DiagStatus | str]:
                 flattened["comment"] = flattened[None]
         del flattened[None]
 
-    return flattened # type: ignore
+    return flattened  # type: ignore

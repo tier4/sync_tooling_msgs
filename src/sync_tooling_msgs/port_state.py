@@ -1,4 +1,4 @@
-"""Utility functions for PTP port states"""
+"""Utility functions for PTP port states."""
 
 import bidict
 
@@ -26,12 +26,12 @@ PORT_STATE_NAMES = bidict.bidict(
 
 
 def port_state_name(state: PS.ValueType) -> str:
-    """Return the canonical name for the given port state enum value"""
+    """Return the canonical name for the given port state enum value."""
     return PORT_STATE_NAMES[state]
 
 
 def port_state_value(name: str) -> PS.ValueType:
-    """Return the enum value for the given canonical port state name"""
+    """Return the enum value for the given canonical port state name."""
     return PORT_STATE_NAMES.inverse[name]
 
 
