@@ -1,3 +1,9 @@
+"""Sync tooling message types and utilities.
+
+This module provides protobuf message types and helper functions for clock
+synchronization diagnostics.
+"""
+
 from google.protobuf.message import Message
 
 from sync_tooling_msgs.clock_id import readable_clock_id
