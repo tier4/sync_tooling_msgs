@@ -1,6 +1,5 @@
 
 import pytest
-
 from sync_tooling_msgs.clock_id import parse_clock_id, readable_clock_id
 from sync_tooling_msgs.clock_id_pb2 import ClockId
 

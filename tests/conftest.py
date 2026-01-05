@@ -1,5 +1,4 @@
 import pytest
-
 from sync_tooling_msgs.clock_id_pb2 import ClockId
 from sync_tooling_msgs.interface_id_pb2 import InterfaceId
 from sync_tooling_msgs.linux_clock_device_id_pb2 import LinuxClockDeviceId
