@@ -1,6 +1,6 @@
-# Synchronization Tooling Messages
+# SYNC.TOOLING Messages
 
-This project aims to serve as a bridge between the Python-based [Synchronization Tooling](https://github.com/tier4/sync_tooling) and ROS2-based C++ packages such as [Nebula](https://github.com/tier4/nebula).
+This project aims to serve as a bridge between the Python-based [SYNC.TOOLING](https://github.com/tier4/sync_tooling) and ROS2-based C++ packages such as [Nebula](https://github.com/tier4/nebula).
 
 The message definitions are Protobuf, but can be used over ROS2 pub/sub as a transport layer.
 
@@ -28,5 +28,6 @@ uv sync && uv build
 ### For C++ (ROS2)
 
 ```shell
+rosdep install -yqi --from-paths .
 colcon build
 ```
