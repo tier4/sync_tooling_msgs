@@ -1,10 +1,8 @@
 # Synchronization Tooling Messages
 
-This project aims to serve as a bridge between the Python-based [Synchronization Tooling](https://github.com/tier4/sync_tooling) and ROS-based C++ packages such as [Nebula](https://github.com/tier4/nebula).
+This project aims to serve as a bridge between the Python-based [Synchronization Tooling](https://github.com/tier4/sync_tooling) and ROS2-based C++ packages such as [Nebula](https://github.com/tier4/nebula).
 
-ROS2 message transport has been evaluated for this use case but has ultimately not fulfilled requirements:
-* it does not support self-similar data structures such as JSON-like nested objects
-* the different Ubuntu/Python versions used on different ECUs make it hard to use ROS2 in combination with Python 3.10
+The message definitions are Protobuf, but can be used over ROS2 pub/sub as a transport layer.
 
 ## Prerequisites
 
