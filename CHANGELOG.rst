@@ -2,8 +2,8 @@
 Changelog for package sync_tooling_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.6 (2026-01-13)
+------------------
 * chore: more readme tuning
 * chore: adhere to SYNC.TOOLING branding in readme
 * chore: add license headers everywhere
