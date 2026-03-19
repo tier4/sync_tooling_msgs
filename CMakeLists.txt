@@ -70,5 +70,6 @@ install(DIRECTORY proto DESTINATION share/${PROJECT_NAME})
 install(FILES ${CPP_HDRS} DESTINATION include/${PROJECT_NAME})
 
 ament_export_include_directories(include)
+ament_export_dependencies(Protobuf)
 ament_export_targets(export_sync_tooling_msgs)
 ament_package()
