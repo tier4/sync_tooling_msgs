@@ -2,6 +2,11 @@
 Changelog for package sync_tooling_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix: make protobuf-dev an exported buildtool dependency
+* Contributors: Max SCHMELLER
+
 0.2.8 (2026-05-20)
 ------------------
 * fix: make `protobuf` a `depend`, since downstream modules couldn't find it during build time
