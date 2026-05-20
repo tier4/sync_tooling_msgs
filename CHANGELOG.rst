@@ -2,8 +2,8 @@
 Changelog for package sync_tooling_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.9 (2026-05-20)
+------------------
 * fix: make protobuf-dev an exported buildtool dependency
 * Contributors: Max SCHMELLER
 
