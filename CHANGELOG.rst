@@ -2,6 +2,11 @@
 Changelog for package sync_tooling_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix: make `protobuf` a `depend`, since downstream modules couldn't find it during build time
+* Contributors: Max SCHMELLER
+
 0.2.7 (2026-03-19)
 ------------------
 * build: fix dependency export that was causing downstream packages to fail
