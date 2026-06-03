@@ -4,7 +4,7 @@ version = "0.2.5"
 description = "Protobuf definitions for sync tooling."
 authors = [{ name = "Max SCHMELLER", email = "max.schmeller@tier4.jp" }]
 requires-python = ">=3.10"
-dependencies = ["protobuf>=6.31.0", "mypy-protobuf>=3.6.0", "bidict>=0.23.1"]
+dependencies = ["protobuf>=6.33.4,<7", "mypy-protobuf>=3.6.0", "bidict>=0.23.1"]
 
 [dependency-groups]
 dev = [
@@ -13,7 +13,7 @@ dev = [
 ]
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "protobuf==6.33.4"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
