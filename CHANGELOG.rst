@@ -2,6 +2,14 @@
 Changelog for package sync_tooling_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* build: fix protobuf gencode runtime version conflict (`#4 <https://github.com/tier4/sync_tooling_msgs/issues/4>`_)
+  * build: make build-time protobuf version <= runtime to fix gencode/runtime incompatibility
+  * fix: bump protobuf to >=6.33.5 o fix json recursion vuln
+  ---------
+* Contributors: Max Schmeller
+
 0.2.9 (2026-05-20)
 ------------------
 * fix: make protobuf-dev an exported buildtool dependency
