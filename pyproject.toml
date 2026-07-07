@@ -24,7 +24,7 @@ python_files = ["test_*.py", "*_test.py", "*_examples.py"]
 addopts = ["--import-mode=importlib"]
 
 [tool.hatch.build.hooks.protobuf]
-dependencies = ["hatch-protobuf", "mypy-protobuf", "grpcio-tools==1.76.0"]
+dependencies = ["hatch-protobuf", "mypy-protobuf"]
 proto_paths = ["proto"]
 output_path = "src"
 generate_grpc = false
