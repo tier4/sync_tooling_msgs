@@ -2,8 +2,8 @@
 Changelog for package sync_tooling_msgs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.2.11 (2026-07-07)
+-------------------
 * build: pin grpcio-tools to match uv.lock and avoid gencode 7.x (`#6 <https://github.com/tier4/sync_tooling_msgs/issues/6>`_)
 * Contributors: Kento Yabuuchi
 
